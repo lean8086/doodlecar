@@ -1,7 +1,6 @@
 # Doodle Car
 
-http://github.com - automatic!
-[GitHub](http://github.com)
+[Try demo!](http://llinares.github.com/doodlecar/)
 
 ## Instructions
 * ↑ or W: Throttle
