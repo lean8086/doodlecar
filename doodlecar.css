@@ -43,7 +43,7 @@ h1 small {
 .technologies,
 .share {
 	color: #888;
-	display: inline-block;
+	float: left;
 	font-size: 0.75em;
 	text-align: left;
 	vertical-align: top;
@@ -60,15 +60,15 @@ h1 small {
 	list-style-position: inside;
 }
 
+.share {
+	width: 30%;
+}
+
 h2 {
 	color: #444;
 	display: block;
 	font-size: 1.2em;
 	margin: 10px 0;
-}
-
-.share {
-	width: 30%;
 }
 
 .share ul {
