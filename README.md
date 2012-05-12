@@ -1,6 +1,7 @@
 # Doodle Car
 
-http://llinares.github.com/box/
+http://github.com - automatic!
+[GitHub](http://github.com)
 
 ## Instructions
 * ↑ or W: Throttle
