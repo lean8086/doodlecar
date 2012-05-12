@@ -15,14 +15,18 @@ body {
 		linear-gradient(top, transparent 95%, #f7f7f7 5%),
 		linear-gradient(left, transparent 95%, #f7f7f7 5%);
 	background-size: 20px 20px;
-}
-
-body {
 	background-color: #fff;
 	font-family: "Helvetica Neue", "Lucida Grande", Arial;
 	margin: 0 auto;
 	text-align: center;
 	width: 900px;
+}
+
+.gh-ribbon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: 0;
 }
 
 h1 small {
