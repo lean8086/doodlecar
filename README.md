@@ -1,4 +1,5 @@
 # Doodle Car
+This is a simple experiment with some physics laws like acceleration and inertia.
 
 [Try demo!](http://llinares.github.com/doodlecar/)
 
@@ -12,3 +13,6 @@
 * 2D canvas
 * Request Animation Frame
 * Multiple CSS3 background patterns
+
+## Contact
+Twitter: [@lean8086](http://twitter.com/lean8086)
