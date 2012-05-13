@@ -6,9 +6,25 @@
 		<title>Doodle Car by Lean Linares</title>
 		<meta name="keywords" content="game, html5, experiment, css3, canvas, animation, doodlecar, Doodle Car, lean8086, physics, javascript, ecma5" />
 		<link rel="stylesheet" href="doodlecar.css">
+		
+		<script>
+			var _gaq = _gaq || [];
+			_gaq.push(["_setAccount", "UA-31674844-1"]);
+			_gaq.push(["_trackPageview"]);
+
+			(function () {
+				var js = document.createElement("script"),
+					fjs = document.getElementsByTagName("script")[0];
+
+				js.async = true;
+				js.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}());
+		</script>
 	</head>
 	<body>
 		<h1>Doodle Car <small>by <a href="https://twitter.com/#!/lean8086" target="_blank">@lean8086</a></small></h1>
+		<p>This is a simple experiment with some physics laws like acceleration and inertia.</p>
 
 		<canvas class="display"></canvas>
 
