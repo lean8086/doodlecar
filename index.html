@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script></script>
+		<meta charset="utf-8" />
+		<title>Doodle Car by Lean Linares</title>
+		<meta name="keywords" content="game, html5, experiment, css3, canvas, animation, doodlecar, Doodle Car, lean8086, physics, javascript, ecma5" />
+		<link rel="stylesheet" href="http://static.leanlinares.com.ar/common.css" />
+		<link rel="stylesheet" href="doodlecar.css" />
+		
+		<script>
+			var _gaq = _gaq || [];
+			_gaq.push(["_setAccount", "UA-31674844-1"]);
+			_gaq.push(["_trackPageview"]);
+
+			(function () {
+				var js = document.createElement("script"),
+					fjs = document.getElementsByTagName("script")[0];
+
+				js.async = true;
+				js.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}());
+		</script>
+	</head>
+	<body>
+		<h1>Doodle Car <small>by <a href="https://twitter.com/#!/lean8086" target="_blank">@lean8086</a></small></h1>
+		<p>This is a simple experiment with some physics laws like acceleration and inertia.</p>
+
+		<canvas class="display"></canvas>
+
+		<div class="instructions">
+			<h2>Instructions</h2>
+			<ul>
+				<li>↑ or W: Throttle</li>
+				<li>↓ or S: Brake</li>
+				<li>← or A: Turn left</li>
+				<li>→ or D: Turn right</li>
+			</ul>
+		</div>
+		<div class="technologies">
+			<h2>Technologies</h2>
+			<ul>
+				<li>2D canvas</li>
+				<li>Request Animation Frame</li>
+				<li>Multiple CSS background patterns</li>
+			</ul>
+		</div>
+		<div class="share">
+			<h2>Share</h2>
+			<ul>
+				<li>
+					<a href="https://twitter.com/share" data-text="Check out this acceleration and inertia experiment on canvas &quot;Doodle Car&quot;" data-hashtags="html5" class="twitter-share-button">Tweet</a>
+				</li>
+				<li>
+					<div data-size="tall" data-annotation="inline" class="g-plusone"></div>
+				</li>
+				<li>
+					<div id="fb-root"></div>
+					<div data-send="false" data-width="400" data-show-faces="false" class="fb-like"></div>
+				</li>
+			</ul>
+		</div>
+		
+		<a href="https://github.com/llinares/doodlecar" target="_blank">
+			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" class="gh-ribbon" />
+		</a>
+		
+		<script src="doodlecar.js"></script>
+		<script src="http://static.leanlinares.com.ar/common.js"></script>
+	</body>
+</html>
