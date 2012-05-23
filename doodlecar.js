@@ -67,7 +67,7 @@
 
 				var img = new Image();
 
-				img.src = "doodlecar.png";
+				img.src = "http://static.leanlinares.com.ar/doodlecar/car.png";
 
 				return img;
 			}());
@@ -216,10 +216,10 @@
 			};
 
 		// Return tick function
-		return function init() {
+		return function tick() {
 
 			// Execute itself in Request Animation Frame
-			raf(init);
+			raf(tick);
 
 			// Execute drawing method
 			DC.draw();
