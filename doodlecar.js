@@ -1,49 +1,70 @@
+/**
+ * Doodle Car
+ * A simple experiment with some physics laws like acceleration and inertia.
+ * by Leandro Linares @lean8086
+ */
 (function (window) {
-	"use strict";
+	'use strict';
 
-	/*
-	*  Helpers
-	*/
-	var document = window.document,
-		Math = window.Math,
-		Image = window.Image,
+	/**
+	 * RequestAnimationFrame polyfill
+	 * Based on pollyfill by Erik Möller with fixes from Paul Irish and Tino Zijdel
+	 * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+	 * http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+	 */
+	(function () {
+		var lastTime = 0;
 
-	/*
-	*  Core
-	*/
-		DC = {
-			"version": "0.1",
-			"display": {
-				"width": 900,
-				"height": 500
-			}
-		};
+		window.requestAnimationFrame = window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			function (callback) {
+				var currTime = new window.Date().getTime(),
+					timeToCall = window.Math.max(0, 16 - (currTime - lastTime));
 
-	// Canvas context to draw
-	DC.context = (function () {
+				lastTime = currTime + timeToCall;
 
-		// Create canvas HTML element
-		var canvas = document.querySelector("canvas");
+				return window.setTimeout(function () { callback(lastTime); }, timeToCall);
+			};
 
-		// Set canvas size
-		canvas.width = DC.display.width;
-		canvas.height = DC.display.height;
-
-		// Return context
-		return canvas.getContext("2d");
+		window.cancelAnimationFrame = window.cancelAnimationFrame ||
+			window.webkitCancelAnimationFrame ||
+			window.mozCancelAnimationFrame ||
+			window.msCancelAnimationFrame ||
+			window.oCancelAnimationFrame ||
+			function (id) {
+				window.clearTimeout(id);
+			};
 	}());
 
+	/**
+	 * Helpers
+	 */
+	// Fast references
+	var document = window.document,
+		Math = window.Math,
+		// Canvas HTML Element
+		canvas = document.querySelector('canvas'),
+		// Context to draw into the canvas
+		ctx = canvas.getContext('2d'),
+		// Reference to a created car
+		car;
 
-	DC.Car = function () {
+	/**
+	 * Car constructor class
+	 */
+	function Car() {
 
-		/*
-		*  Private members
-		*/
+		/**
+		 * Private members
+		 */
 		var self = {},
 
 			points = {
 				"x": 430,
-				"y": 245,
+				"y": 198,
 				"width": 46,
 				"height": 26,
 				"center": 46 / -2,
@@ -54,7 +75,7 @@
 				"angle": 0,
 				"handling": 4,
 				// How much does the car rotate each step/update (in radians)
-				// TODO: make the 4 variable (rotation.handling)
+				// TODO: make the "4" variable (rotation.handling)
 				"speed": 4 * Math.PI / 180
 			},
 
@@ -64,177 +85,129 @@
 			},
 
 			image = (function () {
-
-				var img = new Image();
-
-				img.src = "http://static.leanlinares.com.ar/doodlecar/car.png";
-
-				return img;
+				var i = new window.Image();
+				i.src = 'http://leanlinares.s3-website-us-east-1.amazonaws.com/doodlecar/car.png';
+				return i;
 			}());
 
-		/*
-		*  Public members
-		*/
-
+		/**
+		 * Public members
+		 */
 		self.direction = 0;
 
 		self.throttling = false;
 
 		self.braking = false;
 
-		// TODO: make custom event
 		self.draw = function () {
-
-			// Physic: Acceleration (throttling but not at max speed yet)
+			// Throttling but not at max speed yet (Physic: Acceleration)
 			if (movement.speed < 1 && self.throttling) { movement.speed += 0.03; }
-
 			// Car will move this far along
 			var moveStep = movement.speed * movement.step;
-
 			// Car in movement
 			if (movement.speed > 0) {
-				// Physic: Inertia or braking (moving but not throttling)
+				// Moving but not throttling (Physic: Inertia or braking)
 				if (!self.throttling) {
 					movement.speed -= (self.braking ? 0.03 : 0.01);
 				}
-
 				// Rotate if direction != 0
-				rotation.angle += DC.main.direction * (rotation.speed * movement.speed);
-
+				rotation.angle += car.direction * (rotation.speed * movement.speed);
 				// Calculate new car position
 				points.x = points.x + Math.cos(rotation.angle) * moveStep;
 				points.y = points.y + Math.sin(rotation.angle) * moveStep;
 			}
-
 			// Save the coordinate system
-			DC.context.save();
-
+			ctx.save();
 			// Position (0,0) at, for example, (250, 50)
-			DC.context.translate(points.x, points.y);
-
+			ctx.translate(points.x, points.y);
 			// Rotate coordinate system
-			DC.context.rotate(rotation.angle);
-
+			ctx.rotate(rotation.angle);
 			// Draw the car
 			// TODO: may be position-center should be 0
-			//DC.context.fillRect(points.center, points.middle, points.width, points.height);
-			DC.context.drawImage(image, points.center, points.middle);
-
+			//ctx.fillRect(points.center, points.middle, points.width, points.height);
+			ctx.drawImage(image, points.center, points.middle);
 			// Restore the coordinate system back to (0,0)
-			DC.context.restore();
-
+			ctx.restore();
 		};
 
+		// Expose public members
 		return self;
-	};
+	}
 
-	// Drawing method
-	DC.draw = function () {
-
-		// Clear the canvas
-		DC.context.clearRect(0, 0, DC.display.width, DC.display.height);
-
-		// Draw main car
-		DC.main.draw();
-	};
-
-	// Enter frame
-	DC.init = (function () {
-
-		// Create main car
-		DC.main = DC.Car();
-
+	function bindings() {
 		// Which key was pressed
 		document.addEventListener("keydown", function (event) {
-
-			document.body.style.overflow = "hidden";
-
 			switch (event.keyCode) {
 			// Throttle
 			case 38:
 			case 87:
-				DC.main.throttling = true;
+				car.throttling = true;
 				event.preventDefault();
 				break;
 			// Break
 			case 40:
 			case 83:
-				DC.main.braking = true;
+				car.braking = true;
 				event.preventDefault();
 				break;
 			// Turn left
 			case 37:
 			case 65:
-				DC.main.direction = -1;
+				car.direction = -1;
 				event.preventDefault();
 				break;
 			// Turn right
 			case 39:
 			case 68:
-				DC.main.direction = 1;
+				car.direction = 1;
 				event.preventDefault();
 				break;
 			}
-
-		}, false);
+		});
 
 		// Which key was releaed
 		document.addEventListener("keyup", function (event) {
-
-			document.body.style.overflow = "visible";
-
 			switch (event.keyCode) {
 			// Throttle
 			case 38:
 			case 87:
-				DC.main.throttling = false;
+				car.throttling = false;
 				break;
 			// Break
 			case 40:
 			case 83:
-				DC.main.braking = false;
+				car.braking = false;
 				break;
 			// Turn left and turn right
 			case 37:
 			case 65:
 			case 39:
 			case 68:
-				DC.main.direction = 0;
+				car.direction = 0;
 				break;
 			}
+		});
+	}
 
-		}, false);
+	function tick() {
+		// Clear the canvas with the DOM element size
+		ctx.clearRect(0, 0, 900, 400);
+		// Draw the car
+		car.draw();
+		// Restart the rAF cicle
+		window.requestAnimationFrame(tick);
+	}
 
-		// Request Animation Frame Polyfill
-		var raf = window.requestAnimationFrame ||
-			window.webkitRequestAnimationFrame ||
-			window.mozRequestAnimationFrame ||
-			window.msRequestAnimationFrame ||
-			window.oRequestAnimationFrame ||
-			function (callback) {
-				window.setTimeout(callback, 1000 / 60);
-			};
+	/**
+	 * Initialize
+	 */
+	window.onload = function () {
+		// Create a car
+		car = new Car();
+		// Add listeners to the document
+		bindings();
+		// Start the rAF cicle
+		tick();
+	};
 
-		// Return tick function
-		return function tick() {
-
-			// Execute itself in Request Animation Frame
-			raf(tick);
-
-			// Execute drawing method
-			DC.draw();
-		};
-
-	}());
-
-	/*
-	*  Exports
-	*/
-	window.doodlecar = DC;
-
-	/*
-	*  Initialize
-	*/
-	DC.init();
-
-}(window));
+}(this));
