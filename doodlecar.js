@@ -63,25 +63,25 @@
 		var self = {},
 
 			points = {
-				"x": 430,
-				"y": 198,
-				"width": 46,
-				"height": 26,
-				"center": 46 / -2,
-				"middle": 26 / -2
+				'x': 430,
+				'y': 198,
+				'width': 46,
+				'height': 26,
+				'center': 46 / -2,
+				'middle': 26 / -2
 			},
 
 			rotation = {
-				"angle": 0,
-				"handling": 4,
+				'angle': 0,
+				'handling': 4,
 				// How much does the car rotate each step/update (in radians)
-				// TODO: make the "4" variable (rotation.handling)
-				"speed": 4 * Math.PI / 180
+				// TODO: make the '4' variable (rotation.handling)
+				'speed': 4 * Math.PI / 180
 			},
 
 			movement = {
-				"speed": 0,
-				"step": 8
+				'speed': 0,
+				'step': 8
 			},
 
 			image = (function () {
@@ -136,7 +136,7 @@
 
 	function bindings() {
 		// Which key was pressed
-		document.addEventListener("keydown", function (event) {
+		document.addEventListener('keydown', function (event) {
 			switch (event.keyCode) {
 			// Throttle
 			case 38:
@@ -166,7 +166,7 @@
 		});
 
 		// Which key was releaed
-		document.addEventListener("keyup", function (event) {
+		document.addEventListener('keyup', function (event) {
 			switch (event.keyCode) {
 			// Throttle
 			case 38:
