@@ -9,5 +9,5 @@ A simple experiment with some physics laws like acceleration and inertia.
 * ← or A: Turn left
 * → or D: Turn right
 
-## Credits
+## Contact
 Experiment by Leandro Linares [@lean8086](http://twitter.com/lean8086)
