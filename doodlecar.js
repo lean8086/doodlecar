@@ -39,7 +39,7 @@
 		// Reference to resource to be rendered
 		image = (function () {
 			var i = new window.Image();
-			i.src = 'http://leanlinares.s3-website-us-east-1.amazonaws.com/doodlecar/car.png';
+			i.src = 'http://leanlinares.s3-website-us-east-1.amazonaws.com/doodles/car.png';
 			return i;
 		}());
 
