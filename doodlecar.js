@@ -6,42 +6,6 @@
 (function (window) {
 	'use strict';
 
-	/**
-	 * RequestAnimationFrame polyfill
-	 * Based on pollyfill by Erik Möller with fixes from Paul Irish and Tino Zijdel
-	 * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-	 * http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-	 */
-	(function () {
-		var lastTime = 0;
-
-		window.requestAnimationFrame = window.requestAnimationFrame ||
-			window.webkitRequestAnimationFrame ||
-			window.mozRequestAnimationFrame ||
-			window.msRequestAnimationFrame ||
-			window.oRequestAnimationFrame ||
-			function (callback) {
-				var currTime = new window.Date().getTime(),
-					timeToCall = window.Math.max(0, 16 - (currTime - lastTime));
-
-				lastTime = currTime + timeToCall;
-
-				return window.setTimeout(function () { callback(lastTime); }, timeToCall);
-			};
-
-		window.cancelAnimationFrame = window.cancelAnimationFrame ||
-			window.webkitCancelAnimationFrame ||
-			window.mozCancelAnimationFrame ||
-			window.msCancelAnimationFrame ||
-			window.oCancelAnimationFrame ||
-			function (id) {
-				window.clearTimeout(id);
-			};
-	}());
-
-	/**
-	 * Helpers
-	 */
 	// Fast references
 	var document = window.document,
 		Math = window.Math,
@@ -49,165 +13,135 @@
 		canvas = document.querySelector('canvas'),
 		// Context to draw into the canvas
 		ctx = canvas.getContext('2d'),
-		// Reference to a created car
-		car;
+		// Position into space
+		x = 430,
+		y = 198,
+		// Size
+		width = 46,
+		height = 26,
+		// Axis to rotate
+		center = width / -2,
+		middle = height / -2,
+		// Rotation
+		angle = 0,
+		handling = 4,
+		// How much does the car rotate each step/update (in radians)
+		rotationStep = (handling * Math.PI / 180).toFixed(2),
+		// Velocity
+		speed = 0,
+		step = 8,
+		// Determines the left/right direction
+		direction = 0,
+		// Flag to determine when user applies the throttle
+		throttling = false,
+		// Flag to determine when user applies the brake
+		braking = false,
+		// Reference to resource to be rendered
+		image = (function () {
+			var i = new window.Image();
+			i.src = 'http://leanlinares.s3-website-us-east-1.amazonaws.com/doodlecar/car.png';
+			return i;
+		}());
 
-	/**
-	 * Car constructor class
-	 */
-	function Car() {
+	// Which key was pressed
+	document.addEventListener('keydown', function (event) {
+		switch (event.keyCode) {
+		// Throttle
+		case 38:
+		case 87:
+			throttling = true;
+			break;
+		// Break
+		case 40:
+		case 83:
+			braking = true;
+			break;
+		// Turn left
+		case 37:
+		case 65:
+			direction = -1;
+			break;
+		// Turn right
+		case 39:
+		case 68:
+			direction = 1;
+			break;
+		}
+	});
 
-		/**
-		 * Private members
-		 */
-		var self = {},
+	// Which key was releaed
+	document.addEventListener('keyup', function (event) {
+		switch (event.keyCode) {
+		// Throttle
+		case 38:
+		case 87:
+			throttling = false;
+			break;
+		// Break
+		case 40:
+		case 83:
+			braking = false;
+			break;
+		// Turn left and turn right
+		case 37:
+		case 65:
+		case 39:
+		case 68:
+			direction = 0;
+			break;
+		}
+	});
 
-			points = {
-				'x': 430,
-				'y': 198,
-				'width': 46,
-				'height': 26,
-				'center': 46 / -2,
-				'middle': 26 / -2
-			},
-
-			rotation = {
-				'angle': 0,
-				'handling': 4,
-				// How much does the car rotate each step/update (in radians)
-				// TODO: make the '4' variable (rotation.handling)
-				'speed': 4 * Math.PI / 180
-			},
-
-			movement = {
-				'speed': 0,
-				'step': 8
-			},
-
-			image = (function () {
-				var i = new window.Image();
-				i.src = 'http://leanlinares.s3-website-us-east-1.amazonaws.com/doodlecar/car.png';
-				return i;
-			}());
-
-		/**
-		 * Public members
-		 */
-		self.direction = 0;
-
-		self.throttling = false;
-
-		self.braking = false;
-
-		self.draw = function () {
-			// Throttling but not at max speed yet (Physic: Acceleration)
-			if (movement.speed < 1 && self.throttling) { movement.speed += 0.03; }
-			// Car will move this far along
-			var moveStep = movement.speed * movement.step;
-			// Car in movement
-			if (movement.speed > 0) {
-				// Moving but not throttling (Physic: Inertia or braking)
-				if (!self.throttling) {
-					movement.speed -= (self.braking ? 0.03 : 0.01);
-				}
-				// Rotate if direction != 0
-				rotation.angle += car.direction * (rotation.speed * movement.speed);
-				// Calculate new car position
-				points.x = points.x + Math.cos(rotation.angle) * moveStep;
-				points.y = points.y + Math.sin(rotation.angle) * moveStep;
-			}
-			// Save the coordinate system
-			ctx.save();
-			// Position (0,0) at, for example, (250, 50)
-			ctx.translate(points.x, points.y);
-			// Rotate coordinate system
-			ctx.rotate(rotation.angle);
-			// Draw the car
-			// TODO: may be position-center should be 0
-			//ctx.fillRect(points.center, points.middle, points.width, points.height);
-			ctx.drawImage(image, points.center, points.middle);
-			// Restore the coordinate system back to (0,0)
-			ctx.restore();
-		};
-
-		// Expose public members
-		return self;
-	}
-
-	function bindings() {
-		// Which key was pressed
-		document.addEventListener('keydown', function (event) {
-			switch (event.keyCode) {
-			// Throttle
-			case 38:
-			case 87:
-				car.throttling = true;
-				event.preventDefault();
-				break;
-			// Break
-			case 40:
-			case 83:
-				car.braking = true;
-				event.preventDefault();
-				break;
-			// Turn left
-			case 37:
-			case 65:
-				car.direction = -1;
-				event.preventDefault();
-				break;
-			// Turn right
-			case 39:
-			case 68:
-				car.direction = 1;
-				event.preventDefault();
-				break;
-			}
-		});
-
-		// Which key was releaed
-		document.addEventListener('keyup', function (event) {
-			switch (event.keyCode) {
-			// Throttle
-			case 38:
-			case 87:
-				car.throttling = false;
-				break;
-			// Break
-			case 40:
-			case 83:
-				car.braking = false;
-				break;
-			// Turn left and turn right
-			case 37:
-			case 65:
-			case 39:
-			case 68:
-				car.direction = 0;
-				break;
-			}
-		});
-	}
-
-	function tick() {
+	function draw() {
 		// Clear the canvas with the DOM element size
 		ctx.clearRect(0, 0, 900, 400);
+		// Throttling but not at max speed yet (Physic: Acceleration)
+		if (speed < 1 && throttling) { speed += 0.02; }
+		// Car will move this far along
+		var moveStep = speed * step;
+		// Car in movement
+		if (speed > 0) {
+			// Moving but not throttling (Physic: Inertia or braking)
+			if (!throttling) {
+				speed -= (braking ? 0.03 : 0.01);
+			}
+			// Rotate if direction != 0
+			angle += direction * (rotationStep * speed);
+			// Calculate new car position
+			x += Math.cos(angle) * moveStep;
+			y += Math.sin(angle) * moveStep;
+			//console.log(x + "-" + y);
+			// Check for right to left transportation
+			if (x > 900 + width) {
+				x = -width;
+			// Check for left to right transportation
+			} else if (x < -width) {
+				x = 900 + width;
+			// Check for bottom to top transportation
+			} else if (y > 400 + width) {
+				y = -width;
+			// Check for top to bottom transportation
+			} else if (y < -width) {
+				y = 400 + width;
+			}
+		}
+		// Save the coordinate system
+		ctx.save();
+		// Position (0,0) at, for example, (250, 50)
+		ctx.translate(x, y);
+		// Rotate coordinate system
+		ctx.rotate(angle);
 		// Draw the car
-		car.draw();
+		ctx.drawImage(image, center, middle);
+		// Restore the coordinate system back to (0,0)
+		ctx.restore();
 		// Restart the rAF cicle
-		window.requestAnimationFrame(tick);
+		window.requestAnimationFrame(draw);
 	}
 
 	/**
 	 * Initialize
 	 */
-	window.onload = function () {
-		// Create a car
-		car = new Car();
-		// Add listeners to the document
-		bindings();
-		// Start the rAF cicle
-		tick();
-	};
+	window.onload = draw;
 
 }(this));
