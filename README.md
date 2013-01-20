@@ -1,13 +1,13 @@
 # Doodle Car
-A simple experiment with some physics laws like acceleration and inertia.
+Playing with acceleration and inertia on Canvas.
 
 [Try demo!](http://llinares.github.com/doodlecar/)
 
 ## Instructions
-* ↑ or W: Throttle
+* ↑ or W: Gas
 * ↓ or S: Brake
 * ← or A: Turn left
 * → or D: Turn right
 
 ## Contact
-Experiment by Leandro Linares [@lean8086](http://twitter.com/lean8086)
+Experiment by [Leandro Linares](http://leanlinares.me)
