@@ -1,29 +1,26 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="utf-8"/>
 		<title>Doodle Car</title>
-		<link rel="stylesheet" href="http://leanlinares.s3-website-us-east-1.amazonaws.com/shared.css" />
-		<link rel="stylesheet" href="http://leanlinares.s3-website-us-east-1.amazonaws.com/doodles/doodles.css" />
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600"/>
+        <link rel="stylesheet" href="doodlecar.css"/>
 	</head>
 	<body>
-		<header>
-			<h1>Doodle Car</h1>
-			<p>A simple experiment with some physics laws like acceleration and inertia.</p>
-		</header>
+		<h1>Doodle Car</h1>
+		<p>Playing with acceleration and inertia on Canvas.</p>
 
-		<canvas class="display" width="900" height="400">Your browser doesn't support the HTML Canvas Element.</canvas>
+		<canvas class="display" width="960" height="400">Your browser doesn't support the HTML Canvas Element.</canvas>
 
-		<footer>
-			<p>Instructions: ↑ or W for throttle, ↓ or S for brake, ← or A for turn to left, → or D for turn to right.</p>
-			<p>Experiment by Leandro Linares @lean8086</p>
-		</footer>
+		<aside>
+			<p>↑ or W for gas, ↓ or S for brake, ← or A for turn to left, → or D for turn to right.</p>
+			<p>Experiment by <a href="http://leanlinares.me">Leandro Linares</a></p>
+		</aside>
 
 		<a href="https://github.com/llinares/doodlecar" target="_blank">
 			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" class="gh-ribbon" />
 		</a>
 
-		<script src="http://leanlinares.s3-website-us-east-1.amazonaws.com/animationframe.js"></script>
 		<script src="doodlecar.js"></script>
 	</body>
 </html>
