@@ -35,24 +35,14 @@ aside {
     background-color: #2E458C;
     background-image:
         -webkit-linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 2px),
-        -webkit-linear-gradient(0, rgba(255, 255, 255, .05) 1px, transparent 2px),
+        -webkit-linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 2px),
         -webkit-linear-gradient(#3C5498 1px, transparent 1px),
-        -webkit-linear-gradient(0, #3C5498 1px, transparent 1px);
-    background-image:
-        -moz-linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 2px),
-        -moz-linear-gradient(0, rgba(255, 255, 255, .05) 1px, transparent 2px),
-        -moz-linear-gradient(#3C5498 1px, transparent 1px),
-        -moz-linear-gradient(0, #3C5498 1px, transparent 1px);
-    background-image:
-        -o-linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 2px),
-        -o-linear-gradient(0, rgba(255, 255, 255, .05) 1px, transparent 2px),
-        -o-linear-gradient(#3C5498 1px, transparent 1px),
-        -o-linear-gradient(0, #3C5498 1px, transparent 1px);
+        -webkit-linear-gradient(90deg, #3C5498 1px, transparent 1px);
     background-image:
         linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 2px),
-        linear-gradient(0, rgba(255, 255, 255, .05) 1px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 2px),
         linear-gradient(#3C5498 1px, transparent 1px),
-        linear-gradient(0, #3C5498 1px, transparent 1px);
+        linear-gradient(90deg, #3C5498 1px, transparent 1px);
     background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
     box-shadow: 0 0 20px 0 #111 inset;
 }
