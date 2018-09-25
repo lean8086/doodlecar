@@ -1,7 +1,7 @@
 # Doodle Car
 Playing with acceleration and inertia on Canvas.
 
-[Try demo!](https://www.lean8086.com/labs/doodlecar/)
+[Try demo!](https://www.lean8086.com/labs/doodle-car/)
 
 ## Instructions
 * ↑ or W: Gas
@@ -10,4 +10,4 @@ Playing with acceleration and inertia on Canvas.
 * → or D: Turn right
 
 ## Contact
-Experiment by [Lean Linares](https://www.lean8086.com/)
+Experiment by [Leandro Linares](https://www.lean8086.com/)
